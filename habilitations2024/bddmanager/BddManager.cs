@@ -68,9 +68,10 @@ namespace habilitations2024.bddmanager
                         reader.GetValues(attributs);
                         records.Add(attributs);
                     }
+                    reader.Close();
                 }
+                
             }
-
             return records;
         }
     }

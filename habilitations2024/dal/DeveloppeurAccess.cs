@@ -139,5 +139,36 @@ namespace habilitations2024.dal
                 Console.WriteLine(e.Message);
             }
         }
+
+        public bool ControleAuthentification(Admin admin)
+        {
+            string req = "SELECT COUNT(*) FROM developpeur d " +
+                         "JOIN profil p ON d.idprofil = p.idprofil " +
+                         "WHERE d.nom = @nom AND d.prenom = @prenom AND d.pwd = SHA2(@pwd, 256) AND p.nom = 'admin'";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@nom", admin.Nom },
+                { "@prenom", admin.Prenom },
+                { "@pwd", admin.Pwd }
+            };
+
+            try
+            {
+                List<object[]> result = access.Manager.ReqSelect(req, parameters);
+                if (result != null && result.Count > 0)
+                {
+                    int count = Convert.ToInt32(result[0][0]);
+                    return count > 0;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
     }
 }
