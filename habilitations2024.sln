@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "habilitations2024", "habilitations2024\habilitations2024.csproj", "{2EA69BC5-4033-43D8-8978-6C6C33705D2F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Habilitations2024Installleur", "Habilitations2024Installleur\Habilitations2024Installleur.vdproj", "{1D57BB36-56CB-96F3-EB73-C6D25C0864BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2EA69BC5-4033-43D8-8978-6C6C33705D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EA69BC5-4033-43D8-8978-6C6C33705D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EA69BC5-4033-43D8-8978-6C6C33705D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D57BB36-56CB-96F3-EB73-C6D25C0864BC}.Debug|Any CPU.ActiveCfg = Debug
+		{1D57BB36-56CB-96F3-EB73-C6D25C0864BC}.Debug|Any CPU.Build.0 = Debug
+		{1D57BB36-56CB-96F3-EB73-C6D25C0864BC}.Release|Any CPU.ActiveCfg = Release
+		{1D57BB36-56CB-96F3-EB73-C6D25C0864BC}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
