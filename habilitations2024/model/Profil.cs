@@ -8,5 +8,18 @@ namespace habilitations2024.model
 {
     public class Profil
     {
+        public int Idprofil { get; }
+        public string Nom { get; }
+
+        public Profil(int idprofil, string nom)
+        {
+            Idprofil = idprofil;
+            Nom = nom;
+        }
+
+        public override string ToString()
+        {
+            return Nom;
+        }
     }
 }

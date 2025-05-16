@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace habilitations2024.bddmanager
         public void ReqUpdate(string stringQuery, Dictionary<string, object> parameters = null)
         {
             MySqlCommand command = new MySqlCommand(stringQuery, connection);
-            if (!(parameters != null))
+            if (parameters != null)
             {
                 foreach (KeyValuePair<string, object> parameter in parameters)
                 {
@@ -40,6 +41,37 @@ namespace habilitations2024.bddmanager
             }
             command.Prepare();
             command.ExecuteNonQuery();
+        }
+
+        public List<object[]> ReqSelect(string stringQuery, Dictionary<string, object> parameters = null)
+        {
+            List<object[]> records = new List<object[]>();
+
+            using (MySqlCommand command = new MySqlCommand(stringQuery, connection))
+            {
+                if (parameters != null)
+                {
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        command.Parameters.Add(new MySqlParameter(parameter.Key, parameter.Value));
+                    }
+                }
+
+                command.Prepare();
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    int nbCols = reader.FieldCount;
+
+                    while (reader.Read())
+                    {
+                        object[] attributs = new object[nbCols];
+                        reader.GetValues(attributs);
+                        records.Add(attributs);
+                    }
+                }
+            }
+
+            return records;
         }
     }
 }
