@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Windows.Forms;
+
 
 namespace habilitations2024.dal
 {
@@ -63,6 +66,36 @@ namespace habilitations2024.dal
             return lesDevs;
         }
 
+        public void Test_GetLesDeveloppeurs_ParProfil()
+        {
+            int idProfilTest = 4; // dev-back
+            List<Developpeur> liste = GetLesDeveloppeurs(idProfilTest);
+            int expectedCount = 5; // nombre attendu de dev-back
+
+            if (liste.Count == expectedCount)
+            {
+                MessageBox.Show("Nombre développeur par Profil : OK");
+            }
+            else
+            {
+                MessageBox.Show($"Nombre développeur par Profil : ÉCHEC (attendu : {expectedCount} | obtenu : {liste.Count})");
+            }
+        }
+
+        public void Test_GetLesDeveloppeurs_TousProfils()
+        {
+            List<Developpeur> liste = GetLesDeveloppeurs();
+            int expectedCount = 17; // nombre total de développeurs attendus
+
+            if (liste.Count == expectedCount)
+            {
+                MessageBox.Show("Nombre développeur total : OK");
+            }
+            else
+            {
+                MessageBox.Show($"Nombre développeur total : ÉCHEC (attendu : {expectedCount} | obtenu : {liste.Count})");
+            }
+        }
 
         public void DelDeveloppeur(Developpeur developpeur)
         {

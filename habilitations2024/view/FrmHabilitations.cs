@@ -11,6 +11,7 @@ using habilitations2024.controller;
 using MySql.Data.MySqlClient;
 using habilitations2024.model;
 using System.Security.Policy;
+using System.Diagnostics;
 
 namespace habilitations2024.view
 {
@@ -42,6 +43,7 @@ namespace habilitations2024.view
             encore.Enabled = false;
             enregistrerpwd.Enabled = false;
             annulerpwd.Enabled = false;
+
         }
 
         private void RemplirComboFiltrage()
