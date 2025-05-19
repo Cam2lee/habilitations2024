@@ -27,26 +27,77 @@ namespace habilitations2024.view
             InitializeComponent();
             controller = new FrmHabilitationsController();
             this.Load += FrmHabilitations_Load;
+  
         }
+
         private void FrmHabilitations_Load(object sender, EventArgs e)
         {
+            RemplirComboFiltrage();
             ChargerLesProfils();
             ChargerLesDeveloppeurs();
+            comboFiltrage.SelectedIndexChanged += comboFiltrage_SelectedIndexChanged;
 
-            pwd.PasswordChar = '*';
-            encore.PasswordChar = '*';
             groupBoxPwd.Enabled = false;
             pwd.Enabled = false;
             encore.Enabled = false;
             enregistrerpwd.Enabled = false;
             annulerpwd.Enabled = false;
         }
+
+        private void RemplirComboFiltrage()
+        {
+            comboFiltrage.Items.Clear();
+            comboFiltrage.Items.Add(""); // ligne vide
+            List<Profil> profils = controller.GetLesProfils();
+            foreach (Profil profil in profils)
+            {
+                comboFiltrage.Items.Add(profil);
+            }
+            comboFiltrage.SelectedIndex = 0; // par défaut
+        }
+
+        private void comboFiltrage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Récupérer l'élément sélectionné sans caster directement
+            object selected = comboFiltrage.SelectedItem;
+
+            int? idProfil = null;
+
+            // Vérifier si c'est un profil et pas la chaîne vide
+            if (selected is Profil profilSelectionne)
+            {
+                idProfil = profilSelectionne.Idprofil;
+            }
+            // else idProfil reste null ce qui signifie "pas de filtre"
+
+            try
+            {
+                List<Developpeur> listeDev = controller.GetLesDeveloppeursParProfil(idProfil);
+
+                // Trier les développeurs
+                listeDev.Sort((d1, d2) =>
+                {
+                    int res = string.Compare(d1.Nom, d2.Nom, StringComparison.OrdinalIgnoreCase);
+                    if (res == 0)
+                        res = string.Compare(d1.Prenom, d2.Prenom, StringComparison.OrdinalIgnoreCase);
+                    return res;
+                });
+
+                bindingDeveloppeurs.DataSource = listeDev;
+                listedesdéveloppeurs.DataSource = bindingDeveloppeurs;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors du filtrage : " + ex.Message);
+            }
+        }
+
         private void ChargerLesDeveloppeurs()
         {
             try
             {
                 // Récupérer la liste des développeurs depuis le contrôleur
-                List<Developpeur> listeDev = controller.GetLesDeveloppeurs();
+                List<Developpeur> listeDev = controller.GetLesDeveloppeursParProfil(null);
 
                 // Trier la liste sur Nom puis Prénom
                 listeDev.Sort((d1, d2) =>
@@ -59,7 +110,6 @@ namespace habilitations2024.view
 
                 // Créer un BindingSource et le lier à la liste triée
                 bindingDeveloppeurs = new BindingSource();
-
                 bindingDeveloppeurs.DataSource = listeDev;
 
 
@@ -67,17 +117,16 @@ namespace habilitations2024.view
                 listedesdéveloppeurs.DataSource = bindingDeveloppeurs;
 
 
-                // Configuration DataGridView selon les consignes
+                // Configuration DataGridView
                 listedesdéveloppeurs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 listedesdéveloppeurs.RowHeadersVisible = false;
                 listedesdéveloppeurs.MultiSelect = false;
                 listedesdéveloppeurs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-                // Interdire la modification directe
+                // Interdire la modification
                 listedesdéveloppeurs.ReadOnly = true;
 
-                // Exemple : cacher certaines colonnes si besoin (adapter selon ta classe Developpeur)
-                // Supposons que tu as une colonne "Id" que tu veux cacher
+                // Cacher iddeveloppeur et pwd
                 if (listedesdéveloppeurs.Columns["iddeveloppeur"] != null)
                     listedesdéveloppeurs.Columns["iddeveloppeur"].Visible = false;
 
@@ -90,7 +139,6 @@ namespace habilitations2024.view
                 MessageBox.Show("Erreur lors du chargement des développeurs : " + ex.Message);
             }
         }
-
 
         private void ChargerLesProfils()
         {
@@ -201,8 +249,22 @@ namespace habilitations2024.view
 
             // Réinitialise le formulaire
             ViderZonesSaisie();
-            ChargerLesDeveloppeurs(); // Recharge le DataGridView
+            Profil profilFiltre = (Profil)comboFiltrage.SelectedItem;
+            int? idProfil = profilFiltre?.Idprofil;
+
+            List<Developpeur> listeDev = controller.GetLesDeveloppeursParProfil(idProfil);
+            listeDev.Sort((d1, d2) =>
+            {
+                int res = string.Compare(d1.Nom, d2.Nom, StringComparison.OrdinalIgnoreCase);
+                if (res == 0)
+                    res = string.Compare(d1.Prenom, d2.Prenom, StringComparison.OrdinalIgnoreCase);
+                return res;
+            });
+
+            bindingDeveloppeurs.DataSource = listeDev;
+            listedesdéveloppeurs.DataSource = bindingDeveloppeurs; // Recharge le DataGridView
         }
+
         private void annuler_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Annuler les modifications en cours ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)

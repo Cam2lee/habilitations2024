@@ -22,9 +22,9 @@ namespace habilitations2024.controller
         }
 
         // Récupérer tous les développeurs
-        public List<Developpeur> GetLesDeveloppeurs()
+        public List<Developpeur> GetLesDeveloppeursParProfil(int? idProfil)
         {
-            return developpeurAccess.GetLesDeveloppeurs();
+            return developpeurAccess.GetLesDeveloppeurs(idProfil);
         }
 
         // Récupérer tous les profils

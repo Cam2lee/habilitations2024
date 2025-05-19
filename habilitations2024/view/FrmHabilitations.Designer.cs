@@ -53,6 +53,7 @@
             this.groupBoxPwd = new System.Windows.Forms.GroupBox();
             this.groupBoxAdd = new System.Windows.Forms.GroupBox();
             this.groupBoxListDev = new System.Windows.Forms.GroupBox();
+            this.comboFiltrage = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.listedesdéveloppeurs)).BeginInit();
             this.groupBoxPwd.SuspendLayout();
             this.groupBoxListDev.SuspendLayout();
@@ -222,6 +223,7 @@
             this.pwd.Name = "pwd";
             this.pwd.Size = new System.Drawing.Size(320, 20);
             this.pwd.TabIndex = 18;
+            this.pwd.UseSystemPasswordChar = true;
             // 
             // encore
             // 
@@ -230,6 +232,7 @@
             this.encore.Name = "encore";
             this.encore.Size = new System.Drawing.Size(320, 20);
             this.encore.TabIndex = 19;
+            this.encore.UseSystemPasswordChar = true;
             // 
             // labelpwd
             // 
@@ -294,6 +297,7 @@
             // 
             // groupBoxListDev
             // 
+            this.groupBoxListDev.Controls.Add(this.comboFiltrage);
             this.groupBoxListDev.Controls.Add(this.listedesdéveloppeurs);
             this.groupBoxListDev.Location = new System.Drawing.Point(12, 12);
             this.groupBoxListDev.Name = "groupBoxListDev";
@@ -302,6 +306,14 @@
             this.groupBoxListDev.TabStop = false;
             this.groupBoxListDev.Text = "les développeurs";
             this.groupBoxListDev.Enter += new System.EventHandler(this.groupBoxListDev_Enter);
+            // 
+            // comboFiltrage
+            // 
+            this.comboFiltrage.FormattingEnabled = true;
+            this.comboFiltrage.Location = new System.Drawing.Point(628, 254);
+            this.comboFiltrage.Name = "comboFiltrage";
+            this.comboFiltrage.Size = new System.Drawing.Size(121, 21);
+            this.comboFiltrage.TabIndex = 28;
             // 
             // FrmHabilitations
             // 
@@ -369,6 +381,7 @@
         private System.Windows.Forms.GroupBox groupBoxPwd;
         private System.Windows.Forms.GroupBox groupBoxAdd;
         private System.Windows.Forms.GroupBox groupBoxListDev;
+        private System.Windows.Forms.ComboBox comboFiltrage;
     }
 }
 
